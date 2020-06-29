@@ -3,6 +3,7 @@ const $operators = document.querySelectorAll('.operator:not(#clear):not(#equals)
 const $equal = document.querySelector('#equals')
 const $clear = document.querySelector('#clear')
 const $screen = document.querySelector('#screen')
+const allowedCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '*', '/', '+', '-']
 
 function startCalculator() {
   numbersToScreen()
@@ -50,17 +51,30 @@ function calculationToScreen() {
 }
 
 function returnValue() {
-  if (true) {  
-    const result = Function(`"use strict"; return ${$screen.value}`)
+  const calculation = $screen.value
+  // if (allLegalCharacters(calculation)) {  
+    const result = eval(calculation)
     if (result === Infinity || result === NaN) {
       $screen.value = 'Error'
     } else {
       $screen.value = result 
-    }} else {
-      $screen.value = 'Error'
-    }
-}
+    }} 
+//     else {
+//       $screen.value = 'Error'
+//     }
+// }
 
 function clearScreen() {
   $clear.addEventListener('click', () => $screen.value = '')
+}
+
+function allLegalCharacters(calculation) {
+  console.log(calculation)
+  calculation.split('').forEach( character => {
+    console.log(character)
+    if (allowedCharacters.find(character) != undefined) {
+      return false
+    }
+  })
+  return true
 }
